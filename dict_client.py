@@ -3,11 +3,13 @@
 
 from socket import * 
 import sys 
+import getpass
+
 
 def do_register(s):
     print("欢迎注册电子词典用户！")
     username=input("请输入用户名：")
-    passwd =input("请输入密码：")
+    passwd =getpass.getpass()
     username_passwd=username+' '+passwd
     s.send(username_passwd.encode())
     recvfrom= s.recv(1024).decode()
@@ -16,7 +18,8 @@ def do_register(s):
 def do_login(s):
     global username
     username=input("请输入用户名：")
-    passwd =input("请输入密码：")
+    passwd = getpass.getpass()
+    print(passwd)
     username_passwd=username+' '+passwd
     s.send(username_passwd.encode())
     recvfrom=s.recv(1024).decode()
@@ -36,16 +39,16 @@ def erjijiemian(s):
             '''
             )
         cmd =input("输入选项>>")
-        if int(cmd) == 1:
+        if  cmd == '1':
             s.send('3'.encode())
             do_find(s)
-        elif int(cmd) == 2:
+        elif cmd == '2':
             s.send('4'.encode())
             do_history(s)
-        elif int(cmd) == 3:
+        elif cmd == '3':
             return
         else :
-            print("please input right require")
+            print('please input right order!')
 
 def do_find(s):
     word=input("Please input word:")
